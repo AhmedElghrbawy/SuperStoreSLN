@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuperStore.Data;
+using SuperStore.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +28,16 @@ namespace SuperStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<AppContext>(options =>
+            services.AddDbContext<StoreDBContext>(options =>
             {
-                
+                options.UseSqlServer(Configuration["SuperStore:ConnectionString"]);
             });
+
+            services.AddIdentity<User, ApplicationRole>()
+                .AddEntityFrameworkStores<StoreDBContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +57,7 @@ namespace SuperStore
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
