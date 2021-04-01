@@ -11,8 +11,6 @@ namespace SuperStore.Data.Models
 {
     public class User : IdentityUser<int>
     {
-        [Key]
-        public new int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
 
@@ -23,7 +21,7 @@ namespace SuperStore.Data.Models
         public string FullName { get { return FirstName + " " + LastName; } }
 
         [Phone]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         public string City { get; set; }
 
