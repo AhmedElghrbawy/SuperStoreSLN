@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuperStore.Data;
+using SuperStore.Data.DataAccess;
 using SuperStore.Data.Models;
+using SuperStore.Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,8 @@ namespace SuperStore
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
             services.AddRazorPages();
+            services.AddTransient<CategoryService>();
+            services.AddTransient<CategoryRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

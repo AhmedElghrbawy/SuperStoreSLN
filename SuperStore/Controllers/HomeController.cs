@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SuperStore.Models;
+using SuperStore.Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,15 +15,17 @@ namespace SuperStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly CategoryService _categoryService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, CategoryService categoryService)
         {
             _logger = logger;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _categoryService.GetAllCategories());
         }
 
         public IActionResult Privacy()

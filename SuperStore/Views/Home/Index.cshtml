@@ -1,18 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Category>
 
-@{ 
+@{
+    ViewData["Title"] = "Home Page";
     var currentUser = await UserManager.GetUserAsync(User);
 }
+
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 <div class="text-center">
 
-    @if(SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User))
     {
         <p>User signed in @currentUser.FirstName</p>
+
+        @foreach(var category in Model)
+        {
+            <p>@category.CategoryName</p>
+        }
     }else
     {
         <p>not logged in</p>

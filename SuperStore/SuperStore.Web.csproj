@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SuperStore.Data\SuperStore.Data.csproj" />
+    <ProjectReference Include="..\SuperStore.Services\SuperStore.Services.csproj" />
   </ItemGroup>
 
 </Project>
