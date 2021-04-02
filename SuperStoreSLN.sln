@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperStore", "SuperStore\SuperStore.csproj", "{80BB4D40-98DE-48BC-8DB6-3B4299C8D3FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperStore.Web", "SuperStore\SuperStore.Web.csproj", "{80BB4D40-98DE-48BC-8DB6-3B4299C8D3FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperStore.Data", "SuperStore.Data\SuperStore.Data.csproj", "{BA6A27E7-C460-45E2-AF93-2AAB79A9C962}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperStore.Data", "SuperStore.Data\SuperStore.Data.csproj", "{BA6A27E7-C460-45E2-AF93-2AAB79A9C962}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
