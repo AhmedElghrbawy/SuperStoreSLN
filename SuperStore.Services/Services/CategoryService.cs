@@ -1,5 +1,5 @@
-﻿using SuperStore.Data;
-using SuperStore.Data.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using SuperStore.Data;
 using SuperStore.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +11,16 @@ namespace SuperStore.Services.Services
 {
     public class CategoryService
     {
-        private readonly CategoryRepo categoryRepo;
+        private readonly StoreDBContext _dbContext;
 
-        public CategoryService(CategoryRepo categoryRepo)
+        public CategoryService(StoreDBContext dbContext)
         {
-            this.categoryRepo = categoryRepo;
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            return await categoryRepo.GetCategories();
+            return await _dbContext.Categories.AsNoTracking().ToListAsync();
         }
     }
 }
