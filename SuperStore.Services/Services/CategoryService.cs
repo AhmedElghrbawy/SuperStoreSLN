@@ -18,7 +18,13 @@ namespace SuperStore.Services.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategories()
+        public async Task<Category> GetCategoryByIdAsync(int id)
+        {
+            return await _dbContext.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.CategoryId == id);
+        }    
+        
+
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _dbContext.Categories.AsNoTracking().ToListAsync();
         }
