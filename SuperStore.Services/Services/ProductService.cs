@@ -33,7 +33,7 @@ namespace SuperStore.Services.Services
         }
 
         
-        public async Task<Product> AddProductAsync(Product product, ClaimsPrincipal UserClaim)
+        public async Task<Product> CreateProductAsync(Product product, ClaimsPrincipal UserClaim)
         {
             var user = await _userManager.GetUserAsync(UserClaim);
             product.ViewCount = 0;
