@@ -40,6 +40,8 @@ namespace SuperStore
                 .AddDefaultUI();
             services.AddRazorPages();
             services.AddTransient<CategoryService>();
+            services.AddTransient<ProductService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

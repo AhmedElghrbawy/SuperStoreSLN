@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ProductViewModel>
+
+
+<div class="row justify-content-center">
+    @foreach (var product in Model)
+     {
+        <partial name="_ProductPartial.cshtml" model="product" />
+     }
+</div>
