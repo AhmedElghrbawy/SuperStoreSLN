@@ -22,7 +22,11 @@ namespace SuperStore.Data.Models
 
 
         public byte[] Image { get; set; }
+
+        [Range(minimum: 1, maximum: 1000)]
         public int AmountAvailable { get; set; }
+
+        [Range(minimum: 0, maximum: Int32.MaxValue)]
         public int ViewCount { get; set; }
 
         public int OwnerId { get; set; }
