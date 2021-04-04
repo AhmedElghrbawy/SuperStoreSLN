@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperStore.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -54,15 +55,16 @@ namespace SuperStore.Web.Models
         {
             get
             {
+                if (ImageData == null)
+                    return "";
                 string imageBase64Data = Convert.ToBase64String(ImageData);
                 return string.Format("data:image/jpeg;base64,{0}", imageBase64Data);
             }
         }
 
-
+        public SelectList CategorySelectList { get; set; }
 
         public User Owner { get; set; }
-        public Category Category { get; set; }
         public List<Review> Reviews { get; set; }
     }
 }

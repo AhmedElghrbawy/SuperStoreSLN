@@ -25,7 +25,7 @@ namespace SuperStore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _categoryService.GetAllCategories());
+            return View(await _categoryService.GetAllCategoriesAsync());
         }
 
         public IActionResult Privacy()
