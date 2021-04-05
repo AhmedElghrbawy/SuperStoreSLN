@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperStore.Data.Models;
 using System;
@@ -12,7 +13,7 @@ namespace SuperStore.Web.Models
 {
     public class ProductViewModel
     {
-        
+
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
@@ -48,6 +49,10 @@ namespace SuperStore.Web.Models
         public int ViewCount { get; }
 
         public int OwnerId { get; set; }
+
+
+
+        [Required]
         public int CategoryId { get; set; }
 
 

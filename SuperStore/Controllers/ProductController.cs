@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperStore.Data.Models;
 using SuperStore.Services.Services;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SuperStore.Web.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly CategoryService _categoryService;
@@ -42,8 +44,14 @@ namespace SuperStore.Web.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(ProductViewModel receivedProduct)
         {
+            if (!string.IsNullOrEmpty(receivedProduct.Title))
+            {
+                return View(receivedProduct);
+            }
+
+            ModelState.Clear();
             var productViewModel = new ProductViewModel();
             productViewModel.CategorySelectList =
                 new SelectList(await _categoryService.GetAllCategoriesAsync(), "CategoryId", "CategoryName");
@@ -51,12 +59,24 @@ namespace SuperStore.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductViewModel productViewModel)
+        [ValidateAntiForgeryToken]
+        [ActionName("Create")]
+        public async Task<IActionResult> Create_Post(ProductViewModel productViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(productViewModel);
+                return RedirectToAction("Create", productViewModel);
             }
+
+            bool validCategory = (await _categoryService.GetAllCategoriesAsync())
+                .Any(c => c.CategoryId == productViewModel.CategoryId);
+
+            if (!validCategory)
+            {
+                ModelState.AddModelError("CategoryId", "Pleas Enter a valid Category");
+                return RedirectToAction("Create", productViewModel);
+            }
+            
             productViewModel.ImageFormFile = Request.Form.Files["ImageFile"];
             var productModel = new Product
             {
@@ -68,7 +88,11 @@ namespace SuperStore.Web.Controllers
                 Price = productViewModel.Price,
             };
 
-            await _productService.CreateProductAsync(productModel, User);
+            if (await _productService.CreateProductAsync(productModel, User) == null)
+            {
+                return BadRequest();
+            }
+
 
             
 

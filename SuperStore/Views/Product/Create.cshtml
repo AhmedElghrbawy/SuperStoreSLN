@@ -40,11 +40,11 @@
                 <span asp-validation-for="AmountAvailable" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategorySelectList" class="control-label">Category</label>
-                <select id="CategorySelectList" name="CategoryId" asp-items="@Model.CategorySelectList">
-                    <option value="0">Select A Category</option>
+                <label asp-for="CategoryId" class="control-label">Category</label>
+                <select asp-for="CategoryId" id="CategorySelectList" name="CategoryId" asp-items="@Model.CategorySelectList">
+                    <option value="">Select A Category</option>
                 </select>
-                <span asp-validation-for="CategorySelectList" class="text-danger"></span>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             
             <div class="form-group">
