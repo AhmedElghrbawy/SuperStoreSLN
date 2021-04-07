@@ -1,9 +1,17 @@
 ﻿@model ProductViewModel
 
 
-<div class="card" style="width: 18rem;">
+<div class="card mb-3 border-primary" style="width: 18rem;">
     <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
     <div class="card-body">
         <p class="card-text">@Model.Title</p>
+    </div>
+    
+    <div class="card-body">
+        <div><strong>@Html.DisplayFor(Model => Model.Price)</strong></div>
+        <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
+        <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperStore.Data.Models;
@@ -22,6 +23,8 @@ namespace SuperStore.Web.Models
 
         [Required]
         [Range(Double.Epsilon, 10000000000.00)]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        [DataType(DataType.Currency)]
         public Decimal Price { get; set; }
 
         [Required]
@@ -49,7 +52,6 @@ namespace SuperStore.Web.Models
         public int ViewCount { get; }
 
         public int OwnerId { get; set; }
-
 
 
         [Required]

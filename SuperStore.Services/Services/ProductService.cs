@@ -24,12 +24,17 @@ namespace SuperStore.Services.Services
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _dbContext.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Products
+                .Include(p => p.Owner)
+                .Include(p => p.Reviews)
+                .AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-            return await _dbContext.Products.AsNoTracking().ToListAsync();
+            return await _dbContext.Products
+                .Include(p => p.Owner)
+                .AsNoTracking().ToListAsync();
         }
 
         

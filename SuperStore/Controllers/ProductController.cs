@@ -36,7 +36,8 @@ namespace SuperStore.Web.Controllers
                 Id = p.Id,
                 OwnerId = p.OwnerId,
                 Price = p.Price,
-                Reviews = p.Reviews
+                Reviews = p.Reviews,
+                Owner = p.Owner
             });
 
             return View(productViewModels);
