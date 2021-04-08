@@ -22,9 +22,13 @@ namespace SuperStore.Services.Services
             _userManager = userManager;
         }
 
-        public async Task<ShoppingCart> GetUserShoppingCartAsync(User user)
+        public async Task<ShoppingCart> GetUserShoppingCartAsync(ClaimsPrincipal userClaim)
         {
-            var userCart = await _storeDbContext.ShoppingCarts.Where(sh => sh.OwnerId == user.Id).FirstOrDefaultAsync();
+            var user = await _userManager.GetUserAsync(userClaim);
+
+            var userCart = await _storeDbContext.ShoppingCarts.Where(sh => sh.OwnerId == user.Id)
+                .Include(sh => sh.Items)
+                .FirstOrDefaultAsync();
 
             if (userCart != null)
                 return userCart;
@@ -36,11 +40,10 @@ namespace SuperStore.Services.Services
             return userCart;
         }
 
-        public async Task<ShoppingCart> AddProductAsync(Product product, ClaimsPrincipal UserClaim)
+        public async Task<ShoppingCart> AddProductAsync(Product product, ClaimsPrincipal userClaim)
         {
-            var user = await _userManager.GetUserAsync(UserClaim);
 
-            var userCart = await this.GetUserShoppingCartAsync(user);
+            var userCart = await this.GetUserShoppingCartAsync(userClaim);
 
             userCart.Items.Add(new ShoppingCartItem { ProductId = product.Id, ShoppingCartId = userCart.Id});
 
@@ -49,14 +52,16 @@ namespace SuperStore.Services.Services
             return userCart;
         }
 
-        public async Task<ShoppingCart> RemoveProductAsync(Product product, ClaimsPrincipal UserClaim)
+        public async Task<ShoppingCart> RemoveProductAsync(Product product, ClaimsPrincipal userClaim)
         {
-            var user = await _userManager.GetUserAsync(UserClaim);
 
-            var userCart = await this.GetUserShoppingCartAsync(user);
+            var userCart = await this.GetUserShoppingCartAsync(userClaim);
 
             var item = await _storeDbContext.ShoppingCartItems.Where(item =>
              item.ProductId == product.Id && item.ShoppingCartId == userCart.Id).FirstOrDefaultAsync();
+
+            if (item == null)
+                return userCart;
 
             _storeDbContext.ShoppingCartItems.Remove(item);
 
