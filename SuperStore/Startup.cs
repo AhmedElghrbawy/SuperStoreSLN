@@ -41,6 +41,7 @@ namespace SuperStore
             services.AddRazorPages();
             services.AddTransient<CategoryService>();
             services.AddTransient<ProductService>();
+            services.AddTransient<ShoppingCartService>();
             
         }
 

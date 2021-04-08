@@ -16,16 +16,18 @@ namespace SuperStore.Web.Controllers
     {
         private readonly CategoryService _categoryService;
         private readonly ProductService _productService;
+        private readonly ShoppingCartService _shoppingCartService;
 
-        public ProductController(CategoryService categoryService, ProductService productService)
+        public ProductController(CategoryService categoryService, ProductService productService, ShoppingCartService shoppingCartService)
         {
             _categoryService = categoryService;
             _productService = productService;
+            _shoppingCartService = shoppingCartService;
         }
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetProductsAsync();
-
+            var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
             var productViewModels = products.Select(p => new ProductViewModel
             {
                 AmountAvailable = p.AmountAvailable,
@@ -37,7 +39,8 @@ namespace SuperStore.Web.Controllers
                 OwnerId = p.OwnerId,
                 Price = p.Price,
                 Reviews = p.Reviews,
-                Owner = p.Owner
+                Owner = p.Owner,
+                InCart = userCart.Items.Any(item => item.Product.Id == p.Id)
             });
 
             return View(productViewModels);

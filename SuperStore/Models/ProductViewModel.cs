@@ -53,7 +53,7 @@ namespace SuperStore.Web.Models
 
         public int OwnerId { get; set; }
 
-
+        public bool InCart { get; set; }
         [Required]
         public int CategoryId { get; set; }
 

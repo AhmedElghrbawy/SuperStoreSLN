@@ -12,7 +12,9 @@
         <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
         <div class="card-navigation d-flex justify-content-end">
-            <a href="#" class="btn btn-primary">Add To Cart <i class="fas fa-cart-plus"></i></a>
+            @if (!Model.InCart){
+                <a href="#" class="btn btn-primary">Add To Cart <i class="fas fa-cart-plus"></i></a>
+            }
         </div>
     </div>
 </div>
