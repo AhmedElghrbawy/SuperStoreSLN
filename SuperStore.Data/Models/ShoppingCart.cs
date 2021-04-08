@@ -16,8 +16,6 @@ namespace SuperStore.Data.Models
 
         public List<ShoppingCartItem> Items { get; set; }
 
-        [NotMapped]
-        public Decimal TotalPrice { get { return Items.Sum(item => item.Product.Price); } }
 
     }
 }

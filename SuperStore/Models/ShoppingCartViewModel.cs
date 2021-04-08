@@ -11,8 +11,7 @@ namespace SuperStore.Web.Models
         public int Id { get; set; }
         [Required]
         public int OwnerId { get; set; }
-        public Decimal TotalPrice { get; set; }
-
+        public Decimal TotalPrice { get { return Products.Sum(item => item.Price); } }
         public IEnumerable<ProductViewModel> Products { get; set; }
     }
 }

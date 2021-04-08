@@ -1,10 +1,19 @@
 ﻿@model ShoppingCartViewModel
 
 
-@if (!Model.Products.Any()) { 
+@if (!Model.Products?.Any() ?? true)
+{
 
     <div class="w-100 h-100 d-flex justify-content-center align-items-center ">
         <p>Your Shopping Cart Is Empty.</p>
     </div>
 
+}else
+{
+    <div class="row justify-content-around">
+    @foreach (var product in Model.Products)
+     {
+        <partial name="/Views/Product/_ProductPartial.cshtml" model="product" />
+     }
+    </div>
 }

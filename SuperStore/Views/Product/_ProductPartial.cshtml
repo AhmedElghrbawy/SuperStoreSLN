@@ -13,7 +13,10 @@
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
         <div class="card-navigation d-flex justify-content-end">
             @if (!Model.InCart){
-                <a href="#" class="btn btn-primary">Add To Cart <i class="fas fa-cart-plus"></i></a>
+                <form asp-controller="Cart" asp-action="Add">
+                    <input type="hidden" name="productId" value="@Model.Id"/>
+                    <button class="btn btn-primary">Add To Cart <i class="fas fa-cart-plus"></i></button>
+                </form>
             }
         </div>
     </div>

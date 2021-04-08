@@ -26,7 +26,6 @@ namespace SuperStore.Web.Controllers
             {
                 Id = UserCart.Id,
                 OwnerId = UserCart.OwnerId,
-                TotalPrice = UserCart.TotalPrice,
                 Products = UserCart.Items.Select(item => new ProductViewModel
                 {
                     AmountAvailable = item.Product.AmountAvailable,
@@ -44,6 +43,18 @@ namespace SuperStore.Web.Controllers
 
             return View(cartViewModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(int productId)
+        {
+            await _shoppingCartService.AddProductAsync(productId, this.User);
+
+            return RedirectToAction("Index");
+        }
     }
+
+
+    
 }
 

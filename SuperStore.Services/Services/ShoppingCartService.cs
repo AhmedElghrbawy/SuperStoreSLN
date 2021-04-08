@@ -28,6 +28,8 @@ namespace SuperStore.Services.Services
 
             var userCart = await _storeDbContext.ShoppingCarts.Where(sh => sh.OwnerId == user.Id)
                 .Include(sh => sh.Items)
+                .ThenInclude(item => item.Product)
+                .ThenInclude(p => p.Owner)
                 .FirstOrDefaultAsync();
 
             if (userCart != null)
@@ -40,25 +42,26 @@ namespace SuperStore.Services.Services
             return userCart;
         }
 
-        public async Task<ShoppingCart> AddProductAsync(Product product, ClaimsPrincipal userClaim)
+        public async Task<ShoppingCart> AddProductAsync(int productId, ClaimsPrincipal userClaim)
         {
 
             var userCart = await this.GetUserShoppingCartAsync(userClaim);
 
-            userCart.Items.Add(new ShoppingCartItem { ProductId = product.Id, ShoppingCartId = userCart.Id});
+            userCart.Items.Add(new ShoppingCartItem { ProductId = productId, ShoppingCartId = userCart.Id});
 
             await _storeDbContext.SaveChangesAsync();
 
             return userCart;
         }
 
-        public async Task<ShoppingCart> RemoveProductAsync(Product product, ClaimsPrincipal userClaim)
+        public async Task<ShoppingCart> RemoveProductAsync(int productId, ClaimsPrincipal userClaim)
         {
 
             var userCart = await this.GetUserShoppingCartAsync(userClaim);
 
             var item = await _storeDbContext.ShoppingCartItems.Where(item =>
-             item.ProductId == product.Id && item.ShoppingCartId == userCart.Id).FirstOrDefaultAsync();
+             item.ProductId == productId && item.ShoppingCartId == userCart.Id)
+                .FirstOrDefaultAsync();
 
             if (item == null)
                 return userCart;
