@@ -23,9 +23,14 @@
                                 <div class="card-block px-3">
                                     <h4 class="card-title">@product.Title</h4>
                                     <p class="card-text">Price: <strong>@Html.DisplayFor(p => product.Price)</strong></p>
-                                    <a href="#" class="btn btn-primary">Read More</a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row justify-content-end w-100 mb-2">
+                            <form asp-controller="Cart" asp-action="Delete">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <button class="btn btn-danger text-light">Remove <i class="far fa-trash-alt"></i></button>
+                            </form>
                         </div>
                     </div>
 

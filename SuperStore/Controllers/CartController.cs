@@ -52,6 +52,15 @@ namespace SuperStore.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int productId)
+        {
+            await _shoppingCartService.RemoveProductAsync(productId, this.User);
+
+            return RedirectToAction("Index");
+        }
     }
 
 
