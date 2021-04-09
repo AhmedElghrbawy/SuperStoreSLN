@@ -10,7 +10,12 @@
     <div class="card-body">
         <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
-        <div><p><strong>Category:</strong> @Model.Category.CategoryName</p></div>
+        <div>
+            <p>
+                <strong>Category:</strong> 
+                <a asp-controller="Category" asp-action="Products" asp-route-categoryId="@Model.CategoryId">@Model.Category.CategoryName</a>
+            </p>
+        </div>
     </div>
 
     <div class="card-footer">

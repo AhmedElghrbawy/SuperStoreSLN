@@ -58,5 +58,16 @@ namespace SuperStore.Services.Services
             }
             return product;
         }
+
+
+        public async Task<IEnumerable<Product>> GetProductsByCategory(int categoryId)
+        {
+            return await _dbContext.Products
+                .Include(p => p.Owner)
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
+                .AsNoTracking().Where(p => p.CategoryId == categoryId)
+                .ToListAsync();
+        }
     }
 }

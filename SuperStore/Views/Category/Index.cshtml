@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Category>
 
 @{ ViewData["Title"] = "Home Page";
-                var currentUser = await UserManager.GetUserAsync(User); }
+    var currentUser = await UserManager.GetUserAsync(User); }
 
 
 @inject SignInManager<User> SignInManager
@@ -15,12 +15,14 @@
     {
 <div class="col-4">
     <div class="list-group" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab">@category.CategoryName</a>
+        <a class="list-group-item list-group-item-action" asp-controller="Category" asp-action="Products" asp-route-categoryId="@category.CategoryId" role="tab">
+        @category.CategoryName
+        </a>
     </div>
 </div>}
 </div> }
-            else
-            {
+else
+{
 <p>not logged in</p>}
 
 

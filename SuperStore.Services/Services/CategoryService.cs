@@ -28,5 +28,6 @@ namespace SuperStore.Services.Services
         {
             return await _dbContext.Categories.AsNoTracking().ToListAsync();
         }
+
     }
 }
