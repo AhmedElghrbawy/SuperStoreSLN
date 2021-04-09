@@ -27,6 +27,7 @@ namespace SuperStore.Services.Services
             return await _dbContext.Products
                 .Include(p => p.Owner)
                 .Include(p => p.Reviews)
+                .Include(p => p.Category)
                 .AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
@@ -34,6 +35,8 @@ namespace SuperStore.Services.Services
         {
             return await _dbContext.Products
                 .Include(p => p.Owner)
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
                 .AsNoTracking().ToListAsync();
         }
 
@@ -43,14 +46,6 @@ namespace SuperStore.Services.Services
             var user = await _userManager.GetUserAsync(UserClaim);
             product.ViewCount = 0;
             product.OwnerId = user.Id;
-
-
-            /* TODO
-             * 
-             * set Product image here or in view
-             */
-
-
             _dbContext.Add(product);
 
             try

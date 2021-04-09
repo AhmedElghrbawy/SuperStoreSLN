@@ -23,7 +23,6 @@ namespace SuperStore.Web.Models
 
         [Required]
         [Range(Double.Epsilon, 10000000000.00)]
-        [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
         public Decimal Price { get; set; }
 
@@ -73,5 +72,6 @@ namespace SuperStore.Web.Models
 
         public User Owner { get; set; }
         public List<Review> Reviews { get; set; }
+        public Category Category { get; set; }
     }
 }

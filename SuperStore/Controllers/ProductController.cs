@@ -40,7 +40,8 @@ namespace SuperStore.Web.Controllers
                 Price = p.Price,
                 Reviews = p.Reviews,
                 Owner = p.Owner,
-                InCart = userCart.Items.Any(item => item.ProductId == p.Id)
+                InCart = userCart.Items.Any(item => item.ProductId == p.Id),
+                Category = p.Category
             });
 
             return View(productViewModels);
@@ -56,9 +57,11 @@ namespace SuperStore.Web.Controllers
             }
 
             ModelState.Clear();
-            var productViewModel = new ProductViewModel();
-            productViewModel.CategorySelectList =
-                new SelectList(await _categoryService.GetAllCategoriesAsync(), "CategoryId", "CategoryName");
+            var productViewModel = new ProductViewModel
+            {
+                CategorySelectList =
+                new SelectList(await _categoryService.GetAllCategoriesAsync(), "CategoryId", "CategoryName")
+            };
             return View(productViewModel);
         }
 

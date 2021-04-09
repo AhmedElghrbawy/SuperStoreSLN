@@ -13,7 +13,7 @@ namespace SuperStore.Web.Models
         public int OwnerId { get; set; }
 
         [Range(Double.Epsilon, 10000000000.00)]
-        [DisplayFormat(DataFormatString = "{0:C0}")]
+        //[DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
         public Decimal TotalPrice { get { return Products.Sum(item => item.Price); } }
 

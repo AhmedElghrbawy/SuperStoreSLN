@@ -38,6 +38,7 @@ namespace SuperStore.Web.Controllers
                     Price = item.Product.Price,
                     Reviews = item.Product.Reviews,
                     Owner = item.Product.Owner,
+                    Category = item.Product.Category
                 })
             };
 

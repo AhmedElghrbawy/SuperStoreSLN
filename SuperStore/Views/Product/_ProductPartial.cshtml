@@ -8,15 +8,22 @@
     </div>
     
     <div class="card-body">
-        <div><strong>@Html.DisplayFor(Model => Model.Price)</strong></div>
         <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
-        <div class="card-navigation d-flex justify-content-end">
-            @if (!Model.InCart){
+        <div><p><strong>Category:</strong> @Model.Category.CategoryName</p></div>
+    </div>
+
+    <div class="card-footer">
+        <div class="card-navigation d-flex justify-content-between">
+            <div class="d-flex justify-content-center align-items-center text-danger">
+                <strong>@Html.DisplayFor(Model => Model.Price)</strong>
+            </div>
+            @if (!Model.InCart)
+            {
                 <form asp-controller="Cart" asp-action="Add">
-                    <input type="hidden" name="productId" value="@Model.Id"/>
-                    <button class="btn btn-primary">Add To Cart <i class="fas fa-cart-plus"></i></button>
-                </form>
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <button class="btn btn-primary btn-sm">Add To Cart <i class="fas fa-cart-plus"></i></button>
+                </form>            
             }
         </div>
     </div>
