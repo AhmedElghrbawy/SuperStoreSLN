@@ -10,10 +10,30 @@
 
 }else
 {
-    <div class="row justify-content-around">
-    @foreach (var product in Model.Products)
-     {
-        <partial name="/Views/Product/_ProductPartial.cshtml" model="product" />
-     }
-    </div>
+<main class="row">
+    <div class="col-md-8">
+            @foreach (var product in Model.Products)
+            {
+                    <div class="card mb-3">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <img src="@product.ImageUrl" class="w-100">
+                            </div>
+                            <div class="col-md-8 px-3">
+                                <div class="card-block px-3">
+                                    <h4 class="card-title">@product.Title</h4>
+                                    <p class="card-text">Price: <strong>@Html.DisplayFor(p => product.Price)</strong></p>
+                                    <a href="#" class="btn btn-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+             }
+
+            </div>
+            <div class="col-md-4">
+                <p>Total Price: <strong> @Html.DisplayFor(sh => sh.TotalPrice) </strong></p>
+            </div>
+        </main>
 }
