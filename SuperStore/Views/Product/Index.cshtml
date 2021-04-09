@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<ProductViewModel>
 
+<div class="row mb-4 justify-content-end">
+    <a asp-controller="Product" asp-action="Create" class="btn btn-success">Add Product <i class="fas fa-plus"></i></a>
+</div>
 
 <div class="row justify-content-around">
     @foreach (var product in Model)
