@@ -26,20 +26,25 @@ namespace SuperStore.Web.Controllers
             {
                 Id = UserCart.Id,
                 OwnerId = UserCart.OwnerId,
-                Products = UserCart.Items.Select(item => new ProductViewModel
+                Items = UserCart.Items.Select(item => new ShoppingCartItemViewModel
                 {
-                    AmountAvailable = item.Product.AmountAvailable,
-                    Title = item.Product.Title,
-                    Description = item.Product.Description,
-                    CategoryId = item.Product.CategoryId,
-                    ImageData = item.Product.Image,
-                    Id = item.Product.Id,
-                    OwnerId = item.Product.OwnerId,
-                    Price = item.Product.Price,
-                    Reviews = item.Product.Reviews,
-                    Owner = item.Product.Owner,
-                    Category = item.Product.Category
+                    Amount = item.Amount,
+                    Product = new ProductViewModel
+                    {
+                        AmountAvailable = item.Product.AmountAvailable,
+                        Title = item.Product.Title,
+                        Description = item.Product.Description,
+                        CategoryId = item.Product.CategoryId,
+                        ImageData = item.Product.Image,
+                        Id = item.Product.Id,
+                        OwnerId = item.Product.OwnerId,
+                        Price = item.Product.Price,
+                        Reviews = item.Product.Reviews,
+                        Owner = item.Product.Owner,
+                        Category = item.Product.Category
+                    }
                 })
+
             };
 
             return View(cartViewModel);
@@ -47,9 +52,9 @@ namespace SuperStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(int productId)
+        public async Task<IActionResult> Add(int productId, int amount)
         {
-            await _shoppingCartService.AddProductAsync(productId, this.User);
+            await _shoppingCartService.AddProductAsync(productId, amount, this.User);
 
             return RedirectToAction("Index");
         }

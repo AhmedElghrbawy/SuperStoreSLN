@@ -14,9 +14,9 @@ namespace SuperStore.Web.Models
 
         [Range(Double.Epsilon, 10000000000.00)]
         [DataType(DataType.Currency)]
-        public Decimal TotalPrice { get { return Products.Sum(item => item.Price); } }
+        public Decimal TotalPrice { get { return Items.Sum(item => item.Product.Price * item.Amount); } }
 
 
-        public IEnumerable<ProductViewModel> Products { get; set; }
+        public IEnumerable<ShoppingCartItemViewModel> Items { get; set; }
     }
 }

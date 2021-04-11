@@ -53,11 +53,6 @@ namespace SuperStore.Services.Services
             if (amount > product.AmountAvailable)
                 return null;
 
-            _storeDbContext.Attach(product);
-            product.AmountAvailable -= amount;
-
-            var entity = _storeDbContext.Entry(product); // remove after testing
-
             userCart.Items.Add(new ShoppingCartItem { ProductId = productId, ShoppingCartId = userCart.Id, Amount = amount});
 
             await _storeDbContext.SaveChangesAsync();
