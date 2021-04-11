@@ -15,11 +15,13 @@ namespace SuperStore.Services.Services
     {
         private readonly StoreDBContext _storeDbContext;
         private readonly UserManager<User> _userManager;
+        private readonly ProductService _productService;
 
-        public ShoppingCartService(StoreDBContext storeDBContext, UserManager<User> userManager)
+        public ShoppingCartService(StoreDBContext storeDBContext, UserManager<User> userManager, ProductService productService)
         {
             _storeDbContext = storeDBContext;
             _userManager = userManager;
+            this._productService = productService;
         }
 
         public async Task<ShoppingCart> GetUserShoppingCartAsync(ClaimsPrincipal userClaim)
