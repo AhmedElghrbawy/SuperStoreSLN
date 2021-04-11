@@ -23,13 +23,21 @@
             <div class="d-flex justify-content-center align-items-center text-danger">
                 <strong>@Html.DisplayFor(Model => Model.Price)</strong>
             </div>
-            @if (!Model.InCart)
+            @if (Model.AmountAvailable == 0)
             {
-                <form asp-controller="Cart" asp-action="Add">
+                <p class="card-text">Sold out</p>
+            }else if (!Model.InCart)
+            {
+                <form asp-controller="Cart" asp-action="Add" class="d-flex justify-content-end ">
                     <input type="hidden" name="productId" value="@Model.Id" />
-                    <button class="btn btn-primary btn-sm">Add To Cart <i class="fas fa-cart-plus"></i></button>
+                    <button type="submit" class="btn btn-primary btn-sm mr-1">Add To Cart <i class="fas fa-cart-plus"></i></button>
+                    <input class="form-control-sm w-25" type="number" name="amount" value="1" min="1" max="@Model.AmountAvailable" />
                 </form>            
+            }else if (Model.InCart)
+            {
+                <p class="card-text">Already In <a asp-controller="Cart" asp-action="Index">Cart</a></p>
             }
+
         </div>
     </div>
 </div>
