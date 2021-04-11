@@ -21,7 +21,7 @@ namespace SuperStore.Services.Services
         {
             _storeDbContext = storeDBContext;
             _userManager = userManager;
-            this._productService = productService;
+            _productService = productService;
         }
 
         public async Task<ShoppingCart> GetUserShoppingCartAsync(ClaimsPrincipal userClaim)
@@ -44,12 +44,21 @@ namespace SuperStore.Services.Services
             return userCart;
         }
 
-        public async Task<ShoppingCart> AddProductAsync(int productId, ClaimsPrincipal userClaim)
+        public async Task<ShoppingCart> AddProductAsync(int productId, int amount, ClaimsPrincipal userClaim)
         {
 
             var userCart = await this.GetUserShoppingCartAsync(userClaim);
+            var product = await _productService.GetProductByIdAsync(productId);
 
-            userCart.Items.Add(new ShoppingCartItem { ProductId = productId, ShoppingCartId = userCart.Id});
+            if (amount > product.AmountAvailable)
+                return null;
+
+            _storeDbContext.Attach(product);
+            product.AmountAvailable -= amount;
+
+            var entity = _storeDbContext.Entry(product); // remove after testing
+
+            userCart.Items.Add(new ShoppingCartItem { ProductId = productId, ShoppingCartId = userCart.Id, Amount = amount});
 
             await _storeDbContext.SaveChangesAsync();
 
