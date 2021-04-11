@@ -20,6 +20,10 @@ namespace SuperStore.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ShoppingCartItem>()
+                .Property(item => item.Amount)
+                .HasDefaultValue(1);
         }
 
 
