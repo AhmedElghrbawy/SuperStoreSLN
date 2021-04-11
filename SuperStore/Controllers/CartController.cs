@@ -28,6 +28,7 @@ namespace SuperStore.Web.Controllers
                 OwnerId = UserCart.OwnerId,
                 Items = UserCart.Items.Select(item => new ShoppingCartItemViewModel
                 {
+                    Id = item.Id,
                     Amount = item.Amount,
                     Product = new ProductViewModel
                     {
@@ -54,7 +55,8 @@ namespace SuperStore.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(int productId, int amount)
         {
-            await _shoppingCartService.AddProductAsync(productId, amount, this.User);
+            if (await _shoppingCartService.AddProductAsync(productId, amount, this.User) == null)
+                return BadRequest();
 
             return RedirectToAction("Index");
         }
@@ -64,6 +66,17 @@ namespace SuperStore.Web.Controllers
         public async Task<IActionResult> Delete(int productId)
         {
             await _shoppingCartService.RemoveProductAsync(productId, this.User);
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAmount(int shoppingCartItemId, int newAmount)
+        {
+            if (await _shoppingCartService.ModifyShoppingCartItemAmountAsync(shoppingCartItemId, newAmount, User) == null)
+                return BadRequest();
 
             return RedirectToAction("Index");
         }

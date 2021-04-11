@@ -50,7 +50,7 @@ namespace SuperStore.Services.Services
             var userCart = await this.GetUserShoppingCartAsync(userClaim);
             var product = await _productService.GetProductByIdAsync(productId);
 
-            if (amount > product.AmountAvailable)
+            if (amount > product.AmountAvailable || amount < 1)
                 return null;
 
             userCart.Items.Add(new ShoppingCartItem { ProductId = productId, ShoppingCartId = userCart.Id, Amount = amount});
@@ -77,6 +77,28 @@ namespace SuperStore.Services.Services
             await _storeDbContext.SaveChangesAsync();
 
             return userCart;
+        }
+
+        public async Task<ShoppingCartItem> ModifyShoppingCartItemAmountAsync(int shoppingCartItemId, int newAmount, ClaimsPrincipal userClaim)
+        {
+            var userCart = await this.GetUserShoppingCartAsync(userClaim);
+
+            var shoppingCartItem = await _storeDbContext.ShoppingCartItems
+                .Where(item => item.Id == shoppingCartItemId)
+                .Include(item => item.Product)
+                .FirstOrDefaultAsync();
+
+            if (userCart.Id != shoppingCartItem.ShoppingCartId) // no user can modify other user shopping cart
+                return null;
+
+            if (newAmount > shoppingCartItem.Product.Price || newAmount < 1)
+                return null;
+
+
+            shoppingCartItem.Amount = newAmount;
+            await _storeDbContext.SaveChangesAsync();
+
+            return shoppingCartItem;
         }
     }
 }
