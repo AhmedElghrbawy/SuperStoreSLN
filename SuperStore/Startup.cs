@@ -42,6 +42,7 @@ namespace SuperStore
             services.AddTransient<CategoryService>();
             services.AddTransient<ProductService>();
             services.AddTransient<ShoppingCartService>();
+            services.AddTransient<OrderService>();
             
         }
 

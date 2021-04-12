@@ -24,6 +24,9 @@ namespace SuperStore.Data
             builder.Entity<ShoppingCartItem>()
                 .Property(item => item.Amount)
                 .HasDefaultValue(1);
+            builder.Entity<Order>()
+                .Property(ord => ord.Date)
+                .HasDefaultValueSql("getDate()");
         }
 
 

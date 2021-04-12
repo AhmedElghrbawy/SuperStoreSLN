@@ -30,18 +30,22 @@ namespace SuperStore.Services.Services
         {
             var user = await _userManager.GetUserAsync(userClaim);
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(userClaim);
-
-            var order = new Order
+            var order = new Order()
             {
-                Owner = user,
-                Items = userCart.Items.Select(shoppingCartItem => new OrderItem
-                {
-                    Amount = shoppingCartItem.Amount,
-                    Product = shoppingCartItem.Product,
-                })
+                Owner = user
             };
 
+            order.Items = userCart.Items.Select(shoppingCartItem => new OrderItem
+            {
+                Amount = shoppingCartItem.Amount,
+                ProductId = shoppingCartItem.Product.Id,
+                OrderId = order.Id,
+            }).ToList();
+
+            userCart.Items.ForEach(item => item.Product.AmountAvailable -= item.Amount);
+            _storeDbContext.RemoveRange(userCart.Items);
             _storeDbContext.Add(order);
+
             await _storeDbContext.SaveChangesAsync();
             return order;
         }
@@ -52,6 +56,7 @@ namespace SuperStore.Services.Services
 
             return await _storeDbContext.Orders.Where(ord => ord.OwnerId == user.Id)
                 .Include(ord => ord.Items)
+                .ThenInclude(item => item.Product)
                 .ToListAsync();
         }
     }

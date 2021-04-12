@@ -47,6 +47,9 @@
             </div>
             <div class="col-md-4">
                 <p>Total Price: <strong> @Html.DisplayFor(sh => sh.TotalPrice) </strong></p>
+                <form asp-controller="Order" asp-action="MakeOrder">
+                    <button class="btn btn-success">Place Order</button>
+                </form>
             </div>
         </main>
 }

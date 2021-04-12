@@ -38,6 +38,7 @@ namespace SuperStore.Services.Services
                 return userCart;
 
             userCart = new ShoppingCart { OwnerId = user.Id };
+            user.ShoppinngCart = userCart;
             _storeDbContext.ShoppingCarts.Add(userCart);
             await _storeDbContext.SaveChangesAsync();
 

@@ -10,6 +10,7 @@ namespace SuperStore.Data.Models
 {
     public class Order
     {
+
         public int Id { get; set; }
 
         public int OwnerId { get; set; }
@@ -23,6 +24,7 @@ namespace SuperStore.Data.Models
 
 
         [NotMapped]
+        [DataType(DataType.Currency)]
         public Decimal TotalPrice { get { return Items.Sum(item => item.Amount * item.Product.Price); } }
     }
 }

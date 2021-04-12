@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Order>
+
+@{ 
+    int count = 1;
+}
+
+@foreach (var order in Model)
+{
+
+    { count = 1; }
+    <h2>On @order.Date</h2>
+    <table class="table mb-4">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col">UnitPrice</th>
+                <th scope="col">Amount</th>
+                <th scope="col">TotalPrice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderItem in order.Items)
+            {
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@orderItem.Product.Title</td>
+                    <td>@orderItem.Product.Price</td>
+                    <td>@orderItem.Amount</td>
+                    <td>@Html.DisplayFor(order => orderItem.ProductTotalPrice)</td>
+                </tr>
+                { count++; }
+            }
+
+            <tr>
+                <td colspan="5" >OverAllPrice: @Html.DisplayFor(ord => order.TotalPrice)</td>
+            </tr>
+
+
+        </tbody>
+    </table>
+
+    
+}
