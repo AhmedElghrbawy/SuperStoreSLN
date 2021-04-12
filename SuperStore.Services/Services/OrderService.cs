@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperStore.Data;
 using SuperStore.Data.Models;
 using System;
@@ -43,6 +44,15 @@ namespace SuperStore.Services.Services
             _storeDbContext.Add(order);
             await _storeDbContext.SaveChangesAsync();
             return order;
+        }
+
+        public async Task<IEnumerable<Order>> GetUserOrderHistoryAsync(ClaimsPrincipal userClaim)
+        {
+            var user = await _userManager.GetUserAsync(userClaim);
+
+            return await _storeDbContext.Orders.Where(ord => ord.OwnerId == user.Id)
+                .Include(ord => ord.Items)
+                .ToListAsync();
         }
     }
 }

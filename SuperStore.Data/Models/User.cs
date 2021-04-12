@@ -25,8 +25,8 @@ namespace SuperStore.Data.Models
 
         public string City { get; set; }
 
-        public List<Product> OwnedProducts { get; set; }
-        public List<Order> OrdersMade { get; set; }
+        public IEnumerable<Product> OwnedProducts { get; set; }
+        public IEnumerable<Order> OrdersMade { get; set; }
         public ShoppingCart ShoppinngCart { get; set; }
     }
 
