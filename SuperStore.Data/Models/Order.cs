@@ -15,10 +15,14 @@ namespace SuperStore.Data.Models
         public int OwnerId { get; set; }
 
         [DataType(DataType.Date)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Date { get; set; }
 
         public User Owner { get; set; }
-        public List<OrderItem> Items { get; set; }
+        public IEnumerable<OrderItem> Items { get; set; }
 
+
+        [NotMapped]
+        public Decimal TotalPrice { get { return Items.Sum(item => item.Amount * item.Product.Price); } }
     }
 }
