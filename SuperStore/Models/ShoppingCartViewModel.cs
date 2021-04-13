@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperStore.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace SuperStore.Web.Models
 
 
         public IEnumerable<ShoppingCartItemViewModel> Items { get; set; }
+        public IEnumerable<CartNotification> Notifications { get; set; }
     }
 }
