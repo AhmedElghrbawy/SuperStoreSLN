@@ -16,6 +16,6 @@ namespace SuperStore.Data.Models
 
         public List<ShoppingCartItem> Items { get; set; }
 
-
+        public IEnumerable<CartNotification> Notification { get; set; }
     }
 }
