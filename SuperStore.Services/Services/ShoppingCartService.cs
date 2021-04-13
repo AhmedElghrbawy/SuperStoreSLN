@@ -35,7 +35,29 @@ namespace SuperStore.Services.Services
                 .FirstOrDefaultAsync();
 
             if (userCart != null)
+            {
+                foreach (var shoppingCartItem in userCart.Items)
+                {
+                    if (shoppingCartItem.Product.AmountAvailable == 0)
+                    {
+                        userCart.Items.Remove(shoppingCartItem);
+                        userCart.Notifications
+                            .Add(
+                            new CartNotification { Text = $"{shoppingCartItem.Product.Title} was removed because it is no longer available." });
+                    }
+
+                    if (shoppingCartItem.Product.AmountAvailable < shoppingCartItem.Amount)
+                    {
+                        shoppingCartItem.Amount = shoppingCartItem.Product.AmountAvailable;
+                        userCart.Notifications.Add(
+                            new CartNotification { Text = $"{shoppingCartItem.Product.Title}'s Amount was reduced." }
+                            );
+                    }
+                }
+
+                await _storeDbContext.SaveChangesAsync();
                 return userCart;
+            }
 
             userCart = new ShoppingCart { OwnerId = user.Id };
             user.ShoppinngCart = userCart;

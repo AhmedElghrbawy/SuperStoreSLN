@@ -26,7 +26,7 @@ namespace SuperStore.Web.Controllers
             {
                 Id = UserCart.Id,
                 OwnerId = UserCart.OwnerId,
-                Notifications = UserCart.Notification,
+                Notifications = UserCart.Notifications,
                 Items = UserCart.Items.Select(item => new ShoppingCartItemViewModel
                 {
                     Id = item.Id,
