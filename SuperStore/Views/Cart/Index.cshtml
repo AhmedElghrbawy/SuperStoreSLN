@@ -1,55 +1,71 @@
 ﻿@model ShoppingCartViewModel
 
+@if (Model.Notifications.Any())
+{
+    <form asp-controller="Cart" asp-action="ClearNotifications" class="d-flex justify-content-end  mb-3">
+        <button class="btn btn-info">Clear <i class="fas fa-times-circle"></i></button>
+    </form>
+}
+
+@foreach (var notification in Model.Notifications)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@notification.Text</p>
+    </div>
+}
+
+
 
 @if (!Model.Items?.Any() ?? true)
 {
 
-    <div class="w-100 h-100 d-flex justify-content-center align-items-center ">
-        <p>Your Shopping Cart Is Empty.</p>
-    </div>
+<div class="w-100 h-100 d-flex justify-content-center align-items-center ">
+    <p>Your Shopping Cart Is Empty.</p>
+</div> }
+            else
+            {
 
-}else
-{
+
+
+
+
 <main class="row">
     <div class="col-md-8">
-            @foreach (var item in Model.Items)
-            {
-                    <div class="card mb-3">
-                        <div class="row ">
-                            <div class="col-md-4">
-                                <img src="@item.Product.ImageUrl" class="w-100">
-                            </div>
-                            <div class="col-md-8 px-3">
-                                <div class="card-block px-3">
-                                    <h4 class="card-title">@item.Product.Title</h4>
-                                    <p class="card-text">Available Amount: <strong>@item.Product.AmountAvailable</strong></p>
-                                    <p class="card-text">Unit Price: <strong>@Html.DisplayFor(p => item.Product.Price)</strong></p>
-                                    <p class="card-text">Amount Orderd: <strong>@item.Amount</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-between align-items-center w-100 mb-2 mt-4">
-                            <form asp-controller="Cart" asp-action="EditAmount" class="ml-5">
-                                <label for="EditAmount">Edit Amount</label>
-                                <input type="hidden" name="shoppingCartItemId" value="@item.Id" />
-                                <input id="EditAmount" class="form-control-sm w-25" type="number" name="newAmount" value="@item.Amount" min="1" max="@item.Product.AmountAvailable" />
-                                <button type="submit" class="btn btn-primary btn-sm ml-1"><i class="fas fa-check"></i></button>
-                            </form>
-                            <form asp-controller="Cart" asp-action="Delete">
-                                <input type="hidden" name="productId" value="@item.Product.Id" />
-                                <button class="btn btn-danger text-light">Remove <i class="far fa-trash-alt"></i></button>
-                            </form>
-                        </div>
-                    </div>
-
-             }
-
+        @foreach (var item in Model.Items)
+        {
+<div class="card mb-3">
+    <div class="row ">
+        <div class="col-md-4">
+            <img src="@item.Product.ImageUrl" class="w-100">
+        </div>
+        <div class="col-md-8 px-3">
+            <div class="card-block px-3">
+                <h4 class="card-title">@item.Product.Title</h4>
+                <p class="card-text">Available Amount: <strong>@item.Product.AmountAvailable</strong></p>
+                <p class="card-text">Unit Price: <strong>@Html.DisplayFor(p => item.Product.Price)</strong></p>
+                <p class="card-text">Amount Orderd: <strong>@item.Amount</strong></p>
             </div>
-            <div class="col-md-4">
-                <p>Total Price: <strong> @Html.DisplayFor(sh => sh.TotalPrice) </strong></p>
-                <form asp-controller="Order" asp-action="MakeOrder">
-                    <button class="btn btn-success">Place Order</button>
-                </form>
-            </div>
-        </main>
-}
+        </div>
+    </div>
+    <div class="row justify-content-between align-items-center w-100 mb-2 mt-4">
+        <form asp-controller="Cart" asp-action="EditAmount" class="ml-5">
+            <label for="EditAmount">Edit Amount</label>
+            <input type="hidden" name="shoppingCartItemId" value="@item.Id" />
+            <input id="EditAmount" class="form-control-sm w-25" type="number" name="newAmount" value="@item.Amount" min="1" max="@item.Product.AmountAvailable" />
+            <button type="submit" class="btn btn-primary btn-sm ml-1"><i class="fas fa-check"></i></button>
+        </form>
+        <form asp-controller="Cart" asp-action="Delete">
+            <input type="hidden" name="productId" value="@item.Product.Id" />
+            <button class="btn btn-danger text-light">Remove <i class="far fa-trash-alt"></i></button>
+        </form>
+    </div>
+</div>}
+
+    </div>
+    <div class="col-md-4">
+        <p>Total Price: <strong> @Html.DisplayFor(sh => sh.TotalPrice) </strong></p>
+        <form asp-controller="Order" asp-action="MakeOrder">
+            <button class="btn btn-success">Place Order</button>
+        </form>
+    </div>
+</main>}

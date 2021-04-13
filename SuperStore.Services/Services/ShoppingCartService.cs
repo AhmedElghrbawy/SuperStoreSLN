@@ -32,6 +32,7 @@ namespace SuperStore.Services.Services
                 .Include(sh => sh.Items)
                 .ThenInclude(item => item.Product)
                 .ThenInclude(p => p.Owner)
+                .Include(sh => sh.Notifications)
                 .FirstOrDefaultAsync();
 
             if (userCart != null)
@@ -40,13 +41,13 @@ namespace SuperStore.Services.Services
                 {
                     if (shoppingCartItem.Product.AmountAvailable == 0)
                     {
-                        userCart.Items.Remove(shoppingCartItem);
+                        _storeDbContext.ShoppingCartItems.Remove(shoppingCartItem);
                         userCart.Notifications
                             .Add(
                             new CartNotification { Text = $"{shoppingCartItem.Product.Title} was removed because it is no longer available." });
                     }
 
-                    if (shoppingCartItem.Product.AmountAvailable < shoppingCartItem.Amount)
+                    else if (shoppingCartItem.Product.AmountAvailable < shoppingCartItem.Amount)
                     {
                         shoppingCartItem.Amount = shoppingCartItem.Product.AmountAvailable;
                         userCart.Notifications.Add(
@@ -122,6 +123,15 @@ namespace SuperStore.Services.Services
             await _storeDbContext.SaveChangesAsync();
 
             return shoppingCartItem;
+        }
+
+
+        public async Task ClearNotificationsAsync(ClaimsPrincipal userClaim)
+        {
+            var userCart = await this.GetUserShoppingCartAsync(userClaim);
+            userCart.Notifications.Clear();
+
+            await _storeDbContext.SaveChangesAsync();
         }
     }
 }

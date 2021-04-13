@@ -81,6 +81,15 @@ namespace SuperStore.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClearNotifications()
+        {
+            await _shoppingCartService.ClearNotificationsAsync(User);
+            return RedirectToAction("Index");
+        }
     }
 
 
