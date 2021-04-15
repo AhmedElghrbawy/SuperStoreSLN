@@ -40,7 +40,7 @@ namespace SuperStore.Web.Controllers
                 Price = p.Price,
                 Reviews = p.Reviews,
                 Owner = p.Owner,
-                InCart = userCart.Items.Any(item => item.ProductId == p.Id),
+                InCart = userCart.Items?.Any(item => item.ProductId == p.Id) ?? false,
                 Category = p.Category
             });
 
