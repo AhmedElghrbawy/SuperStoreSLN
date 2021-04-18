@@ -100,10 +100,43 @@ namespace SuperStore.Web.Controllers
                 return BadRequest();
             }
 
-
-            
-
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Product product = await _productService.GetProductByIdAsync((int) id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }    
+
+            var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
+
+            var productViewModel = new ProductViewModel
+            {
+                AmountAvailable = product.AmountAvailable,
+                Title = product.Title,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                ImageData = product.Image,
+                Id = product.Id,
+                OwnerId = product.OwnerId,
+                Price = product.Price,
+                Reviews = product.Reviews,
+                Owner = product.Owner,
+                InCart = userCart.Items?.Any(item => item.ProductId == product.Id) ?? false,
+                Category = product.Category
+            };
+
+            return View(productViewModel);
+        }
+
+
     }
 }

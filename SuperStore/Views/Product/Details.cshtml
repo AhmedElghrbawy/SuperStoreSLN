@@ -1,0 +1,12 @@
+﻿@model ProductViewModel
+
+@{ 
+    ViewBag.isShowingDetails = true;
+}
+
+<div class="row">
+    <div class="col-12 w-100">
+        <partial name="_ProductPartial.cshtml" model="@Model" />
+    </div>
+
+</div>

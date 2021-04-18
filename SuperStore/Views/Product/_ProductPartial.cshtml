@@ -1,13 +1,22 @@
 ﻿@model ProductViewModel
 
 
-<div class="card mb-3 border-primary" style="width: 18rem;">
-    <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
-    <div class="card-body">
-        <p class="card-text">@Model.Title</p>
-    </div>
+<div class="card mb-3 border-primary h-100">
+    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-light p-0 mb-4">
+        <div class="card-header text-center">
+                <p class="card-text">@Model.Title</p>
+        </div>
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+    </a>
+    
     
     <div class="card-body">
+
+        @if (ViewBag.isShowingDetails ?? false)
+        {
+            <div class="mb-5"><p class="card-text"><strong> @Model.Description </strong></p></div>
+        }
+
         <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
         <div>

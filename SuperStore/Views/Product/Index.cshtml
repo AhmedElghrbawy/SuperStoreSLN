@@ -7,6 +7,9 @@
 <div class="row justify-content-around">
     @foreach (var product in Model)
      {
-        <partial name="_ProductPartial.cshtml" model="product" />
+        <div class="col-sm-12 col-md-4 mb-4">
+            <partial name="_ProductPartial.cshtml" model="product" />
+
+        </div>
      }
 </div>
