@@ -68,6 +68,9 @@ namespace SuperStore.Web.Models
             }
         }
 
+        public double Rating { get { return Reviews.Average(r => r.Stars); } }
+
+
         public SelectList CategorySelectList { get; set; }
 
         public User Owner { get; set; }
