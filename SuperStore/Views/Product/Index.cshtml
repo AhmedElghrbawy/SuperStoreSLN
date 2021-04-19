@@ -1,15 +1,20 @@
 ﻿@model IEnumerable<ProductViewModel>
 
+@{ 
+    ViewBag.CardHeaderFlex = "Header-Column";
+}
+
 <div class="row mb-4 justify-content-end">
     <a asp-controller="Product" asp-action="Create" class="btn btn-success">Add Product <i class="fas fa-plus"></i></a>
 </div>
 
-<div class="row justify-content-around">
+<div class="row justify-content-around mb-4">
     @foreach (var product in Model)
      {
-        <div class="col-sm-12 col-md-4 mb-4">
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
             <partial name="_ProductPartial.cshtml" model="product" />
 
         </div>
      }
 </div>
+

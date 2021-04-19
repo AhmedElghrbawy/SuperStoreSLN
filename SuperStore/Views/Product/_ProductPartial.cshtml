@@ -3,8 +3,18 @@
 
 <div class="card mb-3 border-primary h-100">
     <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-light p-0 mb-4">
-        <div class="card-header text-center">
-                <p class="card-text">@Model.Title</p>
+        <div class="card-header @ViewBag.CardHeaderFlex">
+            <p class="card-text m-0">@Model.Title</p>
+            <div class="stars-container">
+                @for(int i = 0; i < Model.Rating; i++)
+                { 
+                    <i class="fas fa-star golden-star"></i>
+                }
+                @for (int i = 0; i < 5 - Model.Rating; i++)
+                { 
+                    <i class="far fa-star"></i>
+                }
+            </div>
         </div>
         <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
     </a>

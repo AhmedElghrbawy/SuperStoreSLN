@@ -68,7 +68,15 @@ namespace SuperStore.Web.Models
             }
         }
 
-        public double Rating { get { return Reviews.Average(r => r.Stars); } }
+        public int Rating
+        { 
+            get 
+            {
+                if (Reviews == null || Reviews.Count == 0)
+                    return 0;
+                return (int) (Reviews.Average(r => r.Stars)); 
+            } 
+        }
 
 
         public SelectList CategorySelectList { get; set; }
