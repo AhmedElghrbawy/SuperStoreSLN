@@ -27,6 +27,7 @@ namespace SuperStore.Services.Services
             return await _dbContext.Products
                 .Include(p => p.Owner)
                 .Include(p => p.Reviews)
+                .ThenInclude(rev => rev.Owner)
                 .Include(p => p.Category)
                 .AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }

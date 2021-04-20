@@ -14,5 +14,8 @@ namespace SuperStore.Data.Models
         public string Good { get; set; }
         public string Bad { get; set; }
         public int Stars { get; set; }
+
+
+        public User Owner { get; set; }
     }
 }
