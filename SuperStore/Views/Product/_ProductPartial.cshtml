@@ -6,32 +6,31 @@
         <div class="card-header @ViewBag.CardHeaderFlex">
             <p class="card-text m-0">@Model.Title</p>
             <div class="stars-container">
-                @for(int i = 0; i < Model.Rating; i++)
-                { 
-                    <i class="fas fa-star golden-star"></i>
+                @for (int i = 0; i < Model.Rating; i++)
+                {
+                    <i class="fas fa-star review-star"></i>
                 }
                 @for (int i = 0; i < 5 - Model.Rating; i++)
-                { 
-                    <i class="far fa-star"></i>
+                {
+                    <i class="far fa-star review-star"></i>
                 }
             </div>
         </div>
         <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
     </a>
-    
-    
+
+
     <div class="card-body">
 
         @if (ViewBag.isShowingDetails ?? false)
         {
-            <div class="mb-5"><p class="card-text"><strong> @Model.Description </strong></p></div>
-        }
+<div class="mb-5"><p class="card-text"><strong> @Model.Description </strong></p></div>}
 
         <div><p><strong>Owner</strong> <span class="badge badge-success">@Model.Owner.FirstName</span></p></div>
         <div><p><strong>Amount:</strong> @Model.AmountAvailable</p></div>
         <div>
             <p>
-                <strong>Category:</strong> 
+                <strong>Category:</strong>
                 <a asp-controller="Category" asp-action="Products" asp-route-categoryId="@Model.CategoryId">@Model.Category.CategoryName</a>
             </p>
         </div>
@@ -44,19 +43,20 @@
             </div>
             @if (Model.AmountAvailable == 0)
             {
-                <p class="card-text">Sold out</p>
-            }else if (!Model.InCart)
+<p class="card-text">Sold out</p> }
+            else if (!Model.InCart)
             {
-                <form asp-controller="Cart" asp-action="Add" class="d-flex justify-content-end ">
-                    <input type="hidden" name="productId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary btn-sm mr-1">Add To Cart <i class="fas fa-cart-plus"></i></button>
-                    <input class="form-control-sm w-25" type="number" name="amount" value="1" min="1" max="@Model.AmountAvailable" />
-                </form>            
-            }else if (Model.InCart)
+<form asp-controller="Cart" asp-action="Add" class="d-flex justify-content-end ">
+    <input type="hidden" name="productId" value="@Model.Id" />
+    <button type="submit" class="btn btn-primary btn-sm mr-1">Add To Cart <i class="fas fa-cart-plus"></i></button>
+    <input class="form-control-sm w-25" type="number" name="amount" value="1" min="1" max="@Model.AmountAvailable" />
+</form> }
+            else if (Model.InCart)
             {
-                <p class="card-text">Already In <a asp-controller="Cart" asp-action="Index">Cart</a></p>
-            }
+<p class="card-text">Already In <a asp-controller="Cart" asp-action="Index">Cart</a></p>            }
 
         </div>
     </div>
 </div>
+
+

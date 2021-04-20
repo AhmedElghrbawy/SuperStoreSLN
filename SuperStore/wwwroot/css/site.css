@@ -91,3 +91,11 @@ body {
     flex-direction: column;
     justify-content: center;
 }
+
+.review-star {
+    color: gold;
+}
+
+.review-star[data-star_number]:hover {
+    cursor: pointer;
+}
