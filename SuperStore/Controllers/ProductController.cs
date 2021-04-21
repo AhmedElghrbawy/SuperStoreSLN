@@ -103,6 +103,7 @@ namespace SuperStore.Web.Controllers
             return RedirectToAction("Index");
         }
 
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -134,9 +135,18 @@ namespace SuperStore.Web.Controllers
                 Category = product.Category
             };
 
-            return View(productViewModel);
+            var viewModel = new ProductDetailsViewModel { Product = productViewModel };
+
+            return View(viewModel);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddReview(int productId, Review review)
+        {
+            return RedirectToAction("Details", new { id = productId });
+        }
 
     }
 }

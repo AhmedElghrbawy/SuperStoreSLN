@@ -24,8 +24,9 @@ namespace SuperStore.Data.Models
         public string Bad { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Pleas Rate This Product")]
         [Range(1, 5)]
+        [Display(Name ="How do you rate this product?")]
         public int Stars { get; set; }
 
 
