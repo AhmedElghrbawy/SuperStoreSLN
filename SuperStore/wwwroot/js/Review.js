@@ -1,7 +1,7 @@
 ﻿
 // Review Stars events
 
-let starContainer = document.getElementsByClassName("stars-container-test")[0];
+let starContainer = document.getElementsByClassName("stars-container-review")[0];
 
 
 starContainer.addEventListener("click", modifyReviewStars);

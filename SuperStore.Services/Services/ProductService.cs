@@ -61,7 +61,7 @@ namespace SuperStore.Services.Services
         }
 
 
-        public async Task<IEnumerable<Product>> GetProductsByCategory(int categoryId)
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
         {
             return await _dbContext.Products
                 .Include(p => p.Owner)
@@ -69,6 +69,23 @@ namespace SuperStore.Services.Services
                 .Include(p => p.Category)
                 .AsNoTracking().Where(p => p.CategoryId == categoryId)
                 .ToListAsync();
+        }
+
+
+        public async Task<Review> AddReviewAsync(Review review, ClaimsPrincipal UserClaim)
+        {
+            var user = await _userManager.GetUserAsync(UserClaim);
+            review.Owner = user;
+            _dbContext.Reviews.Add(review);
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            return review;
         }
     }
 }

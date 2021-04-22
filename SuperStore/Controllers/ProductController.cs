@@ -143,9 +143,14 @@ namespace SuperStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview(int productId, Review review)
+        public async Task<IActionResult> AddReview(Review review)
         {
-            return RedirectToAction("Details", new { id = productId });
+
+            if (await _productService.AddReviewAsync(review, User) == null)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("Details", new { id = review.ProductId });
         }
 
     }

@@ -29,7 +29,7 @@ namespace SuperStore.Web.Controllers
         public async Task<IActionResult> Products(int categoryId)
         {
             ViewBag.CategoryName = (await _categoryService.GetCategoryByIdAsync(categoryId)).CategoryName;
-            var products = await _productService.GetProductsByCategory(categoryId);
+            var products = await _productService.GetProductsByCategoryAsync(categoryId);
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
             var productViewModels = products.Select(p => new ProductViewModel
             {
