@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperStore.Data.Models;
@@ -17,32 +18,22 @@ namespace SuperStore.Web.Controllers
         private readonly CategoryService _categoryService;
         private readonly ProductService _productService;
         private readonly ShoppingCartService _shoppingCartService;
+        private readonly IMapper _mapper;
 
-        public ProductController(CategoryService categoryService, ProductService productService, ShoppingCartService shoppingCartService)
+        public ProductController(CategoryService categoryService, ProductService productService, ShoppingCartService shoppingCartService,
+            IMapper mapper)
         {
             _categoryService = categoryService;
             _productService = productService;
             _shoppingCartService = shoppingCartService;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetProductsAsync();
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
-            var productViewModels = products.Select(p => new ProductViewModel
-            {
-                AmountAvailable = p.AmountAvailable,
-                Title = p.Title,
-                Description = p.Description,
-                CategoryId = p.CategoryId,
-                ImageData = p.Image,
-                Id = p.Id,
-                OwnerId = p.OwnerId,
-                Price = p.Price,
-                Reviews = p.Reviews,
-                Owner = p.Owner,
-                InCart = userCart.Items?.Any(item => item.ProductId == p.Id) ?? false,
-                Category = p.Category
-            });
+
+            var productViewModels = products.Select(p => _mapper.Map<ProductViewModel>(p, opt => opt.Items["cart"] = userCart));
 
             return View(productViewModels);
         }
@@ -85,15 +76,17 @@ namespace SuperStore.Web.Controllers
             }
             
             productViewModel.ImageFormFile = Request.Form.Files["ImageFile"];
-            var productModel = new Product
-            {
-                Title = productViewModel.Title,
-                Description = productViewModel.Description,
-                AmountAvailable = productViewModel.AmountAvailable,
-                CategoryId = productViewModel.CategoryId,
-                Image = productViewModel.ImageData,
-                Price = productViewModel.Price,
-            };
+            //var productModel = new Product
+            //{
+            //    Title = productViewModel.Title,
+            //    Description = productViewModel.Description,
+            //    AmountAvailable = productViewModel.AmountAvailable,
+            //    CategoryId = productViewModel.CategoryId,
+            //    Image = productViewModel.ImageData,
+            //    Price = productViewModel.Price,
+            //};
+
+            var productModel = _mapper.Map<Product>(productViewModel);
 
             if (await _productService.CreateProductAsync(productModel, User) == null)
             {
@@ -119,22 +112,7 @@ namespace SuperStore.Web.Controllers
 
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
 
-            var productViewModel = new ProductViewModel
-            {
-                AmountAvailable = product.AmountAvailable,
-                Title = product.Title,
-                Description = product.Description,
-                CategoryId = product.CategoryId,
-                ImageData = product.Image,
-                Id = product.Id,
-                OwnerId = product.OwnerId,
-                Price = product.Price,
-                Reviews = product.Reviews,
-                Owner = product.Owner,
-                InCart = userCart.Items?.Any(item => item.ProductId == product.Id) ?? false,
-                Category = product.Category
-            };
-
+            var productViewModel = _mapper.Map<ProductViewModel>(product, opt => opt.Items["cart"] = userCart);
             var viewModel = new ProductDetailsViewModel { Product = productViewModel };
 
             return View(viewModel);

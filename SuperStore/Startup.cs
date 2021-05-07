@@ -43,6 +43,7 @@ namespace SuperStore
             services.AddTransient<ProductService>();
             services.AddTransient<ShoppingCartService>();
             services.AddTransient<OrderService>();
+            services.AddAutoMapper( typeof(Startup) );
             
         }
 
