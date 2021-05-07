@@ -76,15 +76,7 @@ namespace SuperStore.Web.Controllers
             }
             
             productViewModel.ImageFormFile = Request.Form.Files["ImageFile"];
-            //var productModel = new Product
-            //{
-            //    Title = productViewModel.Title,
-            //    Description = productViewModel.Description,
-            //    AmountAvailable = productViewModel.AmountAvailable,
-            //    CategoryId = productViewModel.CategoryId,
-            //    Image = productViewModel.ImageData,
-            //    Price = productViewModel.Price,
-            //};
+            
 
             var productModel = _mapper.Map<Product>(productViewModel);
 
