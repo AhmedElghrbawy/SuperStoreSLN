@@ -32,9 +32,6 @@ namespace SuperStore.Web.Controllers
         {
             var products = await _productService.GetProductsAsync();
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
-
-            //var productViewModels = products.Select(p => _mapper.Map<ProductViewModel>(p, opt => opt.Items["cart"] = userCart));
-
             var productViewModels = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products, opt => opt.Items["cart"] = userCart);
 
             return View(productViewModels);
