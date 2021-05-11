@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SuperStore.Data.Models;
 using SuperStore.Services.Services;
 using SuperStore.Web.Models;
 using System;
@@ -35,7 +36,7 @@ namespace SuperStore.Web.Controllers
             ViewBag.CategoryName = (await _categoryService.GetCategoryByIdAsync(categoryId)).CategoryName;
             var products = await _productService.GetProductsByCategoryAsync(categoryId);
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
-            var productViewModels = products.Select(p => _mapper.Map<ProductViewModel>(p, opt => opt.Items["cart"] = userCart));
+            var productViewModels = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products, opt => opt.Items["cart"] = userCart);
             return View(productViewModels);
         }
     }
