@@ -20,14 +20,14 @@ namespace SuperStore.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var UserCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
+            var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
 
             var cartViewModel = new ShoppingCartViewModel
             {
-                Id = UserCart.Id,
-                OwnerId = UserCart.OwnerId,
-                Notifications = UserCart.Notifications,
-                Items = UserCart.Items.Select(item => new ShoppingCartItemViewModel
+                Id = userCart.Id,
+                OwnerId = userCart.OwnerId,
+                Notifications = userCart.Notifications,
+                Items = userCart.Items.Select(item => new ShoppingCartItemViewModel
                 {
                     Id = item.Id,
                     Amount = item.Amount,

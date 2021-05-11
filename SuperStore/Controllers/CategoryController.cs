@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SuperStore.Services.Services;
 using SuperStore.Web.Models;
 using System;
@@ -13,12 +14,15 @@ namespace SuperStore.Web.Controllers
         private readonly CategoryService _categoryService;
         private readonly ProductService _productService;
         private readonly ShoppingCartService _shoppingCartService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(CategoryService categoryService, ProductService productService, ShoppingCartService shoppingCartService)
+        public CategoryController(CategoryService categoryService, ProductService productService
+            , ShoppingCartService shoppingCartService, IMapper mapper)
         {
             _categoryService = categoryService;
             _productService = productService;
             _shoppingCartService = shoppingCartService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -31,21 +35,7 @@ namespace SuperStore.Web.Controllers
             ViewBag.CategoryName = (await _categoryService.GetCategoryByIdAsync(categoryId)).CategoryName;
             var products = await _productService.GetProductsByCategoryAsync(categoryId);
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
-            var productViewModels = products.Select(p => new ProductViewModel
-            {
-                AmountAvailable = p.AmountAvailable,
-                Title = p.Title,
-                Description = p.Description,
-                CategoryId = p.CategoryId,
-                ImageData = p.Image,
-                Id = p.Id,
-                OwnerId = p.OwnerId,
-                Price = p.Price,
-                Reviews = p.Reviews,
-                Owner = p.Owner,
-                InCart = userCart.Items.Any(item => item.ProductId == p.Id),
-                Category = p.Category
-            });
+            var productViewModels = products.Select(p => _mapper.Map<ProductViewModel>(p, opt => opt.Items["cart"] = userCart));
             return View(productViewModels);
         }
     }
