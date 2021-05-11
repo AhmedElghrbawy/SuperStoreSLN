@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SuperStore.Data.Models;
 using SuperStore.Services.Services;
 using SuperStore.Web.Models;
 using System;
@@ -13,41 +15,18 @@ namespace SuperStore.Web.Controllers
     public class CartController : Controller
     {
         private readonly ShoppingCartService _shoppingCartService;
+        private readonly IMapper _mapper;
 
-        public CartController(ShoppingCartService shoppingCartService)
+        public CartController(ShoppingCartService shoppingCartService, IMapper mapper)
         {
             _shoppingCartService = shoppingCartService;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             var userCart = await _shoppingCartService.GetUserShoppingCartAsync(this.User);
+            var cartViewModel = _mapper.Map<ShoppingCart, ShoppingCartViewModel>(userCart, opt => opt.Items["cart"] = userCart);
 
-            var cartViewModel = new ShoppingCartViewModel
-            {
-                Id = userCart.Id,
-                OwnerId = userCart.OwnerId,
-                Notifications = userCart.Notifications,
-                Items = userCart.Items.Select(item => new ShoppingCartItemViewModel
-                {
-                    Id = item.Id,
-                    Amount = item.Amount,
-                    Product = new ProductViewModel
-                    {
-                        AmountAvailable = item.Product.AmountAvailable,
-                        Title = item.Product.Title,
-                        Description = item.Product.Description,
-                        CategoryId = item.Product.CategoryId,
-                        ImageData = item.Product.Image,
-                        Id = item.Product.Id,
-                        OwnerId = item.Product.OwnerId,
-                        Price = item.Product.Price,
-                        Reviews = item.Product.Reviews,
-                        Owner = item.Product.Owner,
-                        Category = item.Product.Category
-                    }
-                })
-
-            };
 
             return View(cartViewModel);
         }
@@ -88,6 +67,8 @@ namespace SuperStore.Web.Controllers
         public async Task<IActionResult> ClearNotifications()
         {
             await _shoppingCartService.ClearNotificationsAsync(User);
+
+
             return RedirectToAction("Index");
         }
     }

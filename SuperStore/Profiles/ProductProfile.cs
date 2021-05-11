@@ -26,7 +26,7 @@ namespace SuperStore.Web.Profiles
         {
             var userCart = (ShoppingCart) context.Items["cart"];
 
-            return userCart.Items?.Any(item => item.ProductId == source.Id) ?? false;
+            return userCart?.Items?.Any(item => item.ProductId == source.Id) ?? false;
         }
     }
 }
